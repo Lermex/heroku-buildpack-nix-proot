@@ -2,9 +2,9 @@
 
 BUILD_DIR=$1
 
-# Require a deploy.nix file
-if [ ! -f $BUILD_DIR/deploy.nix ]; then
+# We're an Obelisk app if there is an Obelisk thunk
+if [ ! -f $BUILD_DIR/.obelisk/impl/default.nix ]; then
   exit 1
 fi
 
-echo "Nix"
+echo "Obelisk"

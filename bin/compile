@@ -31,8 +31,12 @@ export_env_dir $ENV_DIR
 
 mkdir -p $CACHE_DIR/bin
 
-topic "Downloading proot"
-download_and_install $CACHE_DIR $BUILD_DIR proot http://static.proot.me/proot-x86_64
+topic "Copying proot"
+mkdir -p $BUILD_DIR/bin
+cp -f $DIR/proot $BUILD_DIR/bin/proot
+chmod u+x $BUILD_DIR/bin/proot
+
+chmod u+x $DIR/nix-install-proot
 
 # add executables to path
 export PATH=$BUILD_DIR/bin:$PATH
@@ -57,7 +61,7 @@ topic "Copying nix to $NIX_ROOT_PATH"
 mkdir -p $NIX_ROOT_PATH
 rsync -av $NIX_ROOT_CACHE_PATH/ $NIX_ROOT_PATH
 
-$BUILD_DIR/bin/proot -b $NIX_ROOT_PATH:/nix bash $DIR/nix-install-proot $BUILD_DIR
+$BUILD_DIR/bin/proot -b $NIX_ROOT_PATH:/nix `/usr/bin/env bash` $DIR/nix-install-proot $BUILD_DIR
 
 topic "Cleaning up $BUILD_DIR"
 mv $BUILD_DIR/git-export/Procfile $BUILD_DIR/

@@ -35,7 +35,7 @@ nix-channel --update
 topic "Evaluating deploy.nix"
 SRC=$(nix-store --add-fixed sha256 --recursive $BUILD_DIR/git-export)
 cat $(nix-instantiate $SRC/deploy.nix | head -n1)
-OUT=$(nix-build $SRC/deploy.nix --no-out-link --option binary-caches $NIX_EXTRA_BINARY_CACHE -A api -A heroku-compile-hook)
+OUT=$(nix-build $SRC/deploy.nix --no-out-link --option binary-cache-public-keys "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI=" --option binary-caches "https://cache.nixos.org https://nixcache.reflex-frp.org $NIX_EXTRA_BINARY_CACHE" -A api -A heroku-compile-hook)
 CLOSURE=$()
 
 topic "Copying closure"
